@@ -3,6 +3,7 @@ package com.ohgiraffers.test2.car.model.service;
 import com.ohgiraffers.test2.car.entity.Car;
 import com.ohgiraffers.test2.car.model.dao.CarRepository;
 import com.ohgiraffers.test2.car.model.dto.CarDTO;
+import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,18 @@ public class CarService {
         Car foundCar = carRepository.findById(carNo).orElseThrow(IllegalAccessError::new);
 
         return modelMapper.map(foundCar, CarDTO.class);
+    }
+
+    @Transactional
+    public void modifyCar(CarDTO modifyCar) {
+        Car foundCar = carRepository.findById(modifyCar.getCarNo()).orElseThrow(IllegalArgumentException::new);
+
+        foundCar = foundCar.toBuilder().carName(modifyCar.getCarName()).build()
+                .toBuilder().carPurpose(modifyCar.getCarPurpose()).build()
+                .toBuilder().carReservationDate(modifyCar.getCarReservationDate()).build()
+                .toBuilder().carReturnDueDate(modifyCar.getCarReturnDueDate()).build()
+                .toBuilder().carRentalStatus(modifyCar.getCarRentalStatus()).build();
+
+        carRepository.save(foundCar);
     }
 }

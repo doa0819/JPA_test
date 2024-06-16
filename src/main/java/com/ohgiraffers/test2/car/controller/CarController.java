@@ -47,15 +47,27 @@ public class CarController {
 
     }
 
-    @PostMapping("/modify/{carNo}")
-    public String modifyCar(@PathVariable int carNo, Model model){
+//    @PostMapping("/modify/{carNo}")
+//    public String modifyCar(@PathVariable int carNo, Model model){
+//
+//        CarDTO resultCar = carService.findCarByNo(carNo);
+//        model.addAttribute("car", resultCar);
+//
+//
+//        return "redirect:/car/list";
+//
+//
+//    }
 
-        CarDTO resultCar = carService.findCarByNo(carNo);
-        model.addAttribute("car", resultCar);
+    @GetMapping("/modify")
+    public void modifyCarPage(){}
 
+    @PostMapping("/modify")
+    public String modifyCar(CarDTO modifyCar){
+
+        carService.modifyCar(modifyCar);
 
         return "redirect:/car/list";
-
 
     }
 
